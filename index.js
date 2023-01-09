@@ -2,13 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const path = require("path");
-
 const app = express();
+const morgan = require("morgan");
 
 //  Router
 const authRouter = require("./routes/auth");
-const profileRouter = require("./routes/profile");
-
+const batchRouter = require("./routes/batch");
+const courseRouter = require("./routes/course");
 // PORT
 const PORT = process.env.PORT || 3000;
 
@@ -24,12 +24,15 @@ mongoose
 
 // To accept json data
 app.use(express.json());
+// To accept form data
+app.use(express.urlencoded({ extended: true }));
 // To serve static files
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use(morgan("dev"));
 // Route middleware
 app.use("/api/auth", authRouter);
-app.use("/api/profile", profileRouter);
+app.use("/api/batch", batchRouter);
+app.use("/api/course", courseRouter);
 
 app.listen(PORT, (error) => {
   if (!error) {

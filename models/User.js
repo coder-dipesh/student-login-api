@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema(
       minlength: [8, "Password must be at least 8 characters"],
       trim: true,
     },
+    avatar: {
+      type: String,
+      default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+    },
     profile: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Profile",

@@ -2,8 +2,10 @@ const router = require("express").Router();
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const CryptoJS = require("crypto-js");
+const upload = require("../middleware/uploadFile");
 
-router.post("/register", async (req, res) => {
+router.post("/register", upload.single("avatar"), async (req, res) => {
+  //Creating user object
   const newUser = new User({
     firstname: req.body.firstname,
     lastname: req.body.lastname,
@@ -11,6 +13,7 @@ router.post("/register", async (req, res) => {
     course: req.body.course,
     username: req.body.username,
     password: CryptoJS.AES.encrypt(req.body.password, process.env.PASS_SECRET).toString(),
+    avatar: req.file.destination + req.file.filename,
   });
 
   // Save user to database
@@ -36,7 +39,7 @@ router.post("/login", async (req, res) => {
     if (originalPassword !== inputPassword) {
       return res.status(401).json("Wrong password");
     }
-4
+    4;
     let data = {
       id: user._id,
     };
